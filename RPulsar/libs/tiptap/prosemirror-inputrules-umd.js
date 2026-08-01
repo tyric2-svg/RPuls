@@ -1,1 +1,0 @@
-Not found: /prosemirror-inputrules@1.4.0/dist/index.umd.js
