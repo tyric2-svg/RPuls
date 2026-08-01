@@ -8,10 +8,16 @@
         <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
         <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
         <link rel="stylesheet" href="css/main.css">
-        <!-- Tiptap Editor -->
-        <script src="https://unpkg.com/@tiptap/core@2.1.13/dist/index.min.js"></script>
-        <script src="https://unpkg.com/@tiptap/starter-kit@2.1.13/dist/index.min.js"></script>
-        <script src="https://unpkg.com/@tiptap/extension-placeholder@2.1.13/dist/index.min.js"></script>
+        <!-- Tiptap Editor (локальные файлы для офлайн-работы) -->
+        <script src="libs/tiptap/prosemirror-state.js"></script>
+        <script src="libs/tiptap/prosemirror-model.js"></script>
+        <script src="libs/tiptap/prosemirror-transform.js"></script>
+        <script src="libs/tiptap/prosemirror-view.js"></script>
+        <script src="libs/tiptap/prosemirror-schema-basic.js"></script>
+        <script src="libs/tiptap/prosemirror-schema-list.js"></script>
+        <script src="libs/tiptap/tiptap-core.js"></script>
+        <script src="libs/tiptap/tiptap-starter-kit.js"></script>
+        <script src="libs/tiptap/tiptap-extension-placeholder.js"></script>
 </head>
 <body>
 <!-- ========================================
@@ -969,7 +975,17 @@ WELCOME MODAL — Онбординг для новых пользователе�
 <!-- 17. Задачи: связи, конфликты -->
 <script src="js/features/tasks/relations.js"></script>
 <script src="js/features/tasks/conflictResolution.js"></script>
-<!-- 17.5. Редактор Tiptap -->
+<!-- 17.5. Библиотеки Tiptap (локальные для офлайн-работы) -->
+<script src="libs/tiptap/prosemirror-state.js"></script>
+<script src="libs/tiptap/prosemirror-model.js"></script>
+<script src="libs/tiptap/prosemirror-transform.js"></script>
+<script src="libs/tiptap/prosemirror-view.js"></script>
+<script src="libs/tiptap/prosemirror-schema-basic.js"></script>
+<script src="libs/tiptap/prosemirror-schema-list.js"></script>
+<script src="libs/tiptap/tiptap-core.js"></script>
+<script src="libs/tiptap/tiptap-starter-kit.js"></script>
+<script src="libs/tiptap/tiptap-extension-placeholder.js"></script>
+<!-- 17.6. Редактор Tiptap -->
 <script src="js/features/editor/tiptapEditor.js"></script>
 <!-- 18. Управление: статусы, пользователи, шаблоны, таблица -->
 <script src="js/features/management/statuses.js"></script>
