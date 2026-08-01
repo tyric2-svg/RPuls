@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тест Tiptap Offline</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .editor-container { max-width: 800px; margin: 20px auto; border: 1px solid #ccc; border-radius: 8px; }
+        .ProseMirror { min-height: 200px; padding: 15px; border: 1px solid #ddd; border-radius: 4px; }
+        .ProseMirror-focused { outline: 2px solid #007bff; }
+        .toolbar { padding: 10px; background: #f5f5f5; border-bottom: 1px solid #ddd; border-radius: 8px 8px 0 0; }
+        button { margin: 3px; padding: 8px 12px; cursor: pointer; }
+        button:hover { background: #e0e0e0; }
+        #status { margin-top: 15px; padding: 10px; background: #f9f9f9; border-radius: 4px; font-size: 13px; }
+        #status div { margin: 3px 0; }
+        .error { color: red; }
+        .success { color: green; }
+    </style>
+</head>
+<body>
+    <h1>Tiptap Editor - Тест офлайн версии</h1>
+    
+    <div class="editor-container">
+        <div class="toolbar" id="toolbar">
+            <button data-action="bold"><b>Bold</b></button>
+            <button data-action="italic"><i>Italic</i></button>
+            <button data-action="strike"><s>Strike</s></button>
+            <button data-action="heading1">H1</button>
+            <button data-action="heading2">H2</button>
+            <button data-action="paragraph">P</button>
+            <button data-action="bulletList">• Список</button>
+            <button data-action="orderedList">1. Нумерованный</button>
+            <button data-action="blockquote">Цитата</button>
+            <button data-action="codeBlock">Код</button>
+            <button data-action="undo">↶ Отмена</button>
+            <button data-action="redo">↷ Повтор</button>
+        </div>
+        <div id="editor"></div>
+    </div>
+    
+    <div id="status">Загрузка...</div>
+
+    <!-- Загружаем единый офлайн бандл -->
+    <script src="libs/tiptap/tiptap-offline-bundle.js"></script>
+    
+    <script>
+        const statusDiv = document.getElementById('status');
+        let editor = null;
+        
+        function log(msg, isError = false) {
+            const div = document.createElement('div');
+            div.textContent = msg;
+            if (isError) div.className = 'error';
+            else if (msg.includes('успешно')) div.className = 'success';
+            statusDiv.appendChild(div);
+            console.log(msg);
+        }
+
+        log('Загрузка Tiptap Offline Bundle...');
+
+        // Ждем события готовности
+        document.addEventListener('tiptap-ready', function(e) {
+            log('✓ Событие tiptap-ready получено!');
+            log('window.Tiptap доступен: ' + !!window.Tiptap);
+            
+            if (!window.Tiptap || !window.Tiptap.Editor) {
+                log('ОШИБКА: Tiptap.Editor не найден!', true);
+                return;
+            }
+            
+            log('✓ Tiptap.Editor найден');
+            log('✓ Tiptap.StarterKit: ' + !!window.Tiptap.StarterKit);
+            log('✓ Tiptap.Placeholder: ' + !!window.Tiptap.Placeholder);
+            
+            setTimeout(initEditor, 50);
+        });
+
+        function initEditor() {
+            try {
+                var Editor = window.Tiptap.Editor;
+                var StarterKit = window.Tiptap.StarterKit;
+                var Placeholder = window.Tiptap.Placeholder;
+
+                var extensions = [];
+                
+                if (StarterKit) {
+                    extensions.push(StarterKit);
+                    log('✓ Добавлен StarterKit');
+                }
+                
+                if (Placeholder) {
+                    extensions.push(Placeholder.configure({
+                        placeholder: 'Начните вводить текст...'
+                    }));
+                    log('✓ Добавлен Placeholder');
+                }
+
+                editor = new Editor({
+                    element: document.querySelector('#editor'),
+                    extensions: extensions,
+                    content: '<h2>Привет!</h2><p>Это <b>Tiptap</b> редактор работает <i>полностью офлайн</i>.</p><ul><li>Без CDN</li><li>Без интернета</li><li>Все библиотеки локально</li></ul>'
+                });
+
+                log('✓ Редактор успешно создан и инициализирован!');
+                window.testEditor = editor;
+
+                // Обработчики кнопок
+                document.querySelectorAll('#toolbar button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        if (!editor) return;
+                        
+                        var action = this.getAttribute('data-action');
+                        var chain = editor.chain().focus();
+                        
+                        switch(action) {
+                            case 'bold': chain.toggleBold().run(); break;
+                            case 'italic': chain.toggleItalic().run(); break;
+                            case 'strike': chain.toggleStrike().run(); break;
+                            case 'heading1': chain.toggleHeading({ level: 1 }).run(); break;
+                            case 'heading2': chain.toggleHeading({ level: 2 }).run(); break;
+                            case 'paragraph': chain.setParagraph().run(); break;
+                            case 'bulletList': chain.toggleBulletList().run(); break;
+                            case 'orderedList': chain.toggleOrderedList().run(); break;
+                            case 'blockquote': chain.toggleBlockquote().run(); break;
+                            case 'codeBlock': chain.toggleCodeBlock().run(); break;
+                            case 'undo': chain.undo().run(); break;
+                            case 'redo': chain.redo().run(); break;
+                        }
+                    });
+                });
+
+                log('✓ Обработчики кнопок подключены');
+
+            } catch(e) {
+                log('ОШИБКА при создании редактора: ' + e.message, true);
+                console.error(e);
+                console.error('Stack:', e.stack);
+            }
+        }
+    </script>
+</body>
+</html>
