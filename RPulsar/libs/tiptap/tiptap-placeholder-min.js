@@ -1,0 +1,8 @@
+/**
+ * Minified by jsDelivr using Terser v5.39.0.
+ * Original file: /npm/@tiptap/extension-placeholder@2.4.0/dist/index.js
+ *
+ * Do NOT use SRI with dynamically generated files! More information: https://www.jsdelivr.com/using-sri-with-dynamic-files
+ */
+import{Extension}from"@tiptap/core";import{Plugin,PluginKey}from"@tiptap/pm/state";import{Decoration,DecorationSet}from"@tiptap/pm/view";const Placeholder=Extension.create({name:"placeholder",addOptions:()=>({emptyEditorClass:"is-editor-empty",emptyNodeClass:"is-empty",placeholder:"Write something …",showOnlyWhenEditable:!0,considerAnyAsEmpty:!1,showOnlyCurrent:!0,includeChildren:!1}),addProseMirrorPlugins(){return[new Plugin({key:new PluginKey("placeholder"),props:{decorations:({doc:e,selection:t})=>{var o;const n=this.editor.isEditable||!this.options.showOnlyWhenEditable,{anchor:i}=t,s=[];if(!n)return null;const{firstChild:r}=e.content,l=r&&r.type.isLeaf,d=r&&r.isAtom,p=!!this.options.considerAnyAsEmpty||r&&r.type.name===(null===(o=e.type.contentMatch.defaultType)||void 0===o?void 0:o.name),a=e.content.childCount<=1&&r&&p&&r.nodeSize<=2&&(!l||!d);return e.descendants(((e,t)=>{const o=i>=t&&i<=t+e.nodeSize,n=!e.isLeaf&&!e.childCount;if((o||!this.options.showOnlyCurrent)&&n){const n=[this.options.emptyNodeClass];a&&n.push(this.options.emptyEditorClass);const i=Decoration.node(t,t+e.nodeSize,{class:n.join(" "),"data-placeholder":"function"==typeof this.options.placeholder?this.options.placeholder({editor:this.editor,node:e,pos:t,hasAnchor:o}):this.options.placeholder});s.push(i)}return this.options.includeChildren})),DecorationSet.create(e,s)}}})]}});export{Placeholder,Placeholder as default};
+//# sourceMappingURL=/sm/85f9707f34031f434e1c3c931887b74edbc6552a0cd1269945657eef12f47f0e.map
