@@ -9,8 +9,10 @@ window.App = window.App || {};
  * @returns {object} Экземпляр редактора
  */
 App.initTiptapEditor = function(containerId, content = '', onChange = null) {
-    if (!window.TiptapCore || !window.TiptapStarterKit || !window.TiptapExtensionPlaceholder) {
+    // Проверяем наличие TiptapBundle (новый способ) или старых глобальных переменных
+    if (!window.TiptapBundle && (!window.TiptapCore || !window.TiptapStarterKit || !window.TiptapExtensionPlaceholder)) {
         console.error('Tiptap библиотеки не загружены');
+        console.log('TiptapBundle:', !!window.TiptapBundle);
         console.log('TiptapCore:', !!window.TiptapCore);
         console.log('TiptapStarterKit:', !!window.TiptapStarterKit);
         console.log('TiptapExtensionPlaceholder:', !!window.TiptapExtensionPlaceholder);
@@ -31,11 +33,26 @@ App.initTiptapEditor = function(containerId, content = '', onChange = null) {
     editorElement.className = 'tiptap-editor';
     container.appendChild(editorElement);
 
+    // Используем TiptapBundle если доступен, иначе старые переменные
+    let Editor, StarterKit, Placeholder;
+    
+    if (window.TiptapBundle) {
+        Editor = window.TiptapBundle.Editor;
+        StarterKit = window.TiptapBundle.StarterKit;
+        Placeholder = window.TiptapBundle.Placeholder;
+        console.log('Используем TiptapBundle');
+    } else {
+        Editor = window.TiptapCore.Editor;
+        StarterKit = window.TiptapStarterKit.StarterKit;
+        Placeholder = window.TiptapExtensionPlaceholder.Placeholder;
+        console.log('Используем старые глобальные переменные');
+    }
+
     // Инициализируем редактор
-    const editor = window.TiptapCore.Editor.create({
+    const editor = new Editor({
         element: editorElement,
         extensions: [
-            window.TiptapStarterKit.StarterKit.configure({
+            StarterKit.configure({
                 bulletList: {
                     keepMarks: true,
                     keepAttributes: false,
@@ -45,7 +62,7 @@ App.initTiptapEditor = function(containerId, content = '', onChange = null) {
                     keepAttributes: false,
                 },
             }),
-            window.TiptapExtensionPlaceholder.Placeholder.configure({
+            Placeholder.configure({
                 placeholder: 'Введите описание задачи... (поддерживается Markdown)',
             }),
         ],

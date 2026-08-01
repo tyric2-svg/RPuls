@@ -1,294 +1,334 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест Tiptap Offline Bundle</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 20px;
-            background: #f5f5f5;
-        }
-        .container {
-            background: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .editor-container {
-            border: 2px solid #e0e0e0;
-            border-radius: 6px;
-            margin: 20px 0;
-            min-height: 200px;
-        }
-        .editor-content {
-            padding: 15px;
-            min-height: 150px;
-            outline: none;
-        }
-        .editor-content:focus {
-            border-color: #4a90d9;
-        }
-        .toolbar {
-            padding: 10px 15px;
-            background: #f8f9fa;
-            border-bottom: 1px solid #e0e0e0;
-            border-radius: 6px 6px 0 0;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .toolbar button {
-            padding: 6px 12px;
-            border: 1px solid #ddd;
-            background: white;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.2s;
-        }
-        .toolbar button:hover {
-            background: #e8f0fe;
-            border-color: #4a90d9;
-        }
-        .toolbar button.is-active {
-            background: #4a90d9;
-            color: white;
-            border-color: #4a90d9;
-        }
-        .status {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e8f5e9;
-            border-radius: 6px;
-            border-left: 4px solid #4caf50;
-        }
-        .error {
-            background: #ffebee;
-            border-left-color: #f44336;
-        }
-        .code-block {
-            background: #f6f8fa;
-            padding: 15px;
-            border-radius: 6px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            overflow-x: auto;
-            margin: 15px 0;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiptap Офлайн Тест</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    .editor-container {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 20px 0;
+    }
+    .toolbar {
+      display: flex;
+      gap: 5px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-bottom: 1px solid #ddd;
+      flex-wrap: wrap;
+    }
+    .toolbar button {
+      padding: 6px 12px;
+      border: 1px solid #ccc;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    .toolbar button:hover {
+      background: #e0e0e0;
+    }
+    .toolbar button.is-active {
+      background: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+    .ProseMirror {
+      min-height: 200px;
+      padding: 15px;
+      outline: none;
+    }
+    .ProseMirror:focus {
+      background: #fafafa;
+    }
+    .ProseMirror p {
+      margin: 0.5em 0;
+    }
+    .ProseMirror h1 {
+      font-size: 2em;
+      margin: 0.5em 0;
+    }
+    .ProseMirror h2 {
+      font-size: 1.5em;
+      margin: 0.5em 0;
+    }
+    .ProseMirror h3 {
+      font-size: 1.25em;
+      margin: 0.5em 0;
+    }
+    .ProseMirror ul,
+    .ProseMirror ol {
+      padding-left: 1.5em;
+      margin: 0.5em 0;
+    }
+    .ProseMirror blockquote {
+      border-left: 3px solid #ddd;
+      padding-left: 1em;
+      margin: 0.5em 0;
+      color: #666;
+    }
+    .ProseMirror code {
+      background: #f0f0f0;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+    .ProseMirror pre {
+      background: #f0f0f0;
+      padding: 10px;
+      border-radius: 4px;
+      overflow-x: auto;
+      margin: 0.5em 0;
+    }
+    .status {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e8f5e9;
+      border-radius: 4px;
+      color: #2e7d32;
+    }
+    .error {
+      background: #ffebee;
+      color: #c62828;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🧪 Тест Tiptap редактора (офлайн)</h1>
-        
-        <div id="status" class="status">
-            Загрузка...
-        </div>
-
-        <div id="editor-wrapper" style="display:none;">
-            <div class="editor-container">
-                <div class="toolbar" id="toolbar">
-                    <button data-action="bold"><b>B</b></button>
-                    <button data-action="italic"><i>I</i></button>
-                    <button data-action="strike"><s>S</s></button>
-                    <button data-action="heading1">H1</button>
-                    <button data-action="heading2">H2</button>
-                    <button data-action="paragraph">¶</button>
-                    <button data-action="bulletList">• Список</button>
-                    <button data-action="orderedList">1. Список</button>
-                    <button data-action="blockquote">❝ Цитата</button>
-                    <button data-action="codeBlock">&lt;/&gt; Код</button>
-                    <button data-action="undo">↶ Назад</button>
-                    <button data-action="redo">↷ Вперед</button>
-                </div>
-                <div class="editor-content" id="editor"></div>
-            </div>
-
-            <div class="code-block">
-                <strong>Содержимое редактора (HTML):</strong>
-                <pre id="output"></pre>
-            </div>
-        </div>
-    </div>
-
-    <!-- Подключаем собранный бандл -->
-    <script src="libs/tiptap_dist/tiptap-bundle.js"></script>
+  <div class="container">
+    <h1>📝 Тест Tiptap Редактора (Офлайн)</h1>
     
-    <script>
-        const statusEl = document.getElementById('status');
-        const editorWrapper = document.getElementById('editor-wrapper');
-        const outputEl = document.getElementById('output');
-        let editorInstance = null;
+    <div id="status" class="status">Загрузка...</div>
+    
+    <div class="editor-container">
+      <div class="toolbar">
+        <button data-action="bold" title="Жирный"><b>B</b></button>
+        <button data-action="italic" title="Курсив"><i>I</i></button>
+        <button data-action="strike" title="Зачеркнутый"><s>S</s></button>
+        <button data-action="heading1" title="Заголовок 1">H1</button>
+        <button data-action="heading2" title="Заголовок 2">H2</button>
+        <button data-action="heading3" title="Заголовок 3">H3</button>
+        <button data-action="bulletList" title="Маркированный список">• Список</button>
+        <button data-action="orderedList" title="Нумерованный список">1. Список</button>
+        <button data-action="blockquote" title="Цитата">"</button>
+        <button data-action="codeBlock" title="Блок кода">&lt;/&gt;</button>
+        <button data-action="undo" title="Отменить">↶</button>
+        <button data-action="redo" title="Повторить">↷</button>
+      </div>
+      <div id="editor"></div>
+    </div>
+    
+    <div style="margin-top: 20px;">
+      <h3>Содержимое редактора (HTML):</h3>
+      <pre id="content-display" style="background: #f5f5f5; padding: 10px; border-radius: 4px; overflow-x: auto; font-size: 12px;"></pre>
+    </div>
+  </div>
 
-        function updateOutput() {
-            if (editorInstance) {
-                const html = editorInstance.getHTML();
-                outputEl.textContent = html || '<empty>';
-            }
+  <!-- Подключаем собранный бандл Tiptap -->
+  <script src="libs/tiptap/tiptap-bundle.js"></script>
+  
+  <script>
+    let editor = null;
+    const statusEl = document.getElementById('status');
+    const contentDisplay = document.getElementById('content-display');
+
+    function updateContent() {
+      if (editor) {
+        contentDisplay.textContent = editor.getHTML();
+      }
+    }
+
+    function initEditor() {
+      // Проверяем наличие TiptapBundle
+      if (!window.TiptapBundle || !window.TiptapBundle.Editor) {
+        statusEl.className = 'status error';
+        statusEl.textContent = '❌ ОШИБКА: TiptapBundle не загружен!';
+        console.error('TiptapBundle не найден в window');
+        return;
+      }
+
+      console.log('✅ TiptapBundle найден:', window.TiptapBundle);
+
+      const { Editor, StarterKit, Placeholder } = window.TiptapBundle;
+
+      try {
+        editor = new Editor({
+          element: document.querySelector('#editor'),
+          extensions: [
+            StarterKit.configure({
+              bulletList: {
+                keepMarks: true,
+                keepAttributes: false,
+              },
+              orderedList: {
+                keepMarks: true,
+                keepAttributes: false,
+              },
+            }),
+            Placeholder.configure({
+              placeholder: 'Начните ввод текста или используйте форматирование...',
+            }),
+          ],
+          content: `
+            <h2>Добро пожаловать в Tiptap!</h2>
+            <p>Это <b>офлайн</b> редактор форматированного текста.</p>
+            <p>Попробуйте использовать кнопки выше для форматирования:</p>
+            <ul>
+              <li>Жирный текст</li>
+              <li>Курсив</li>
+              <li>Заголовки</li>
+              <li>Списки</li>
+            </ul>
+            <blockquote>Это пример цитаты</blockquote>
+            <p>Редактор работает <i>без подключения к интернету</i>!</p>
+          `,
+          onTransaction: () => {
+            updateToolbarState();
+            updateContent();
+          },
+          onFocus: () => {
+            updateToolbarState();
+          },
+        });
+
+        statusEl.className = 'status';
+        statusEl.textContent = '✅ Редактор успешно загружен и готов к работе!';
+        
+        // Инициализация состояния тулбара
+        updateToolbarState();
+        updateContent();
+
+      } catch (error) {
+        statusEl.className = 'status error';
+        statusEl.textContent = '❌ Ошибка при создании редактора: ' + error.message;
+        console.error('Ошибка создания редактора:', error);
+      }
+    }
+
+    function updateToolbarState() {
+      if (!editor) return;
+
+      const buttons = document.querySelectorAll('.toolbar button[data-action]');
+      
+      buttons.forEach(button => {
+        const action = button.dataset.action;
+        let isActive = false;
+
+        switch(action) {
+          case 'bold':
+            isActive = editor.isActive('bold');
+            break;
+          case 'italic':
+            isActive = editor.isActive('italic');
+            break;
+          case 'strike':
+            isActive = editor.isActive('strike');
+            break;
+          case 'heading1':
+            isActive = editor.isActive('heading', { level: 1 });
+            break;
+          case 'heading2':
+            isActive = editor.isActive('heading', { level: 2 });
+            break;
+          case 'heading3':
+            isActive = editor.isActive('heading', { level: 3 });
+            break;
+          case 'bulletList':
+            isActive = editor.isActive('bulletList');
+            break;
+          case 'orderedList':
+            isActive = editor.isActive('orderedList');
+            break;
+          case 'blockquote':
+            isActive = editor.isActive('blockquote');
+            break;
+          case 'codeBlock':
+            isActive = editor.isActive('codeBlock');
+            break;
         }
 
-        function initEditor() {
-            try {
-                console.log('Проверка TiptapBundle...');
-                console.log('window.TiptapBundle:', window.TiptapBundle);
-                
-                if (!window.TiptapBundle || !window.TiptapBundle.Editor) {
-                    throw new Error('TiptapBundle не загружен или Editor не найден');
-                }
-
-                const { Editor, StarterKit, Placeholder } = window.TiptapBundle;
-
-                console.log('Создание экземпляра редактора...');
-                
-                editorInstance = new Editor({
-                    element: document.querySelector('#editor'),
-                    extensions: [
-                        StarterKit.configure({
-                            bulletList: {
-                                keepMarks: true,
-                                keepAttributes: false,
-                            },
-                            orderedList: {
-                                keepMarks: true,
-                                keepAttributes: false,
-                            },
-                        }),
-                        Placeholder.configure({
-                            placeholder: 'Введите текст задачи...',
-                        }),
-                    ],
-                    content: '<p>Привет! Это тестовый контент. Попробуйте отформатировать этот текст.</p>',
-                    onUpdate: () => {
-                        updateOutput();
-                    },
-                });
-
-                console.log('Редактор успешно создан!', editorInstance);
-                
-                // Настройка тулбара
-                const buttons = document.querySelectorAll('.toolbar button');
-                buttons.forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        const action = button.getAttribute('data-action');
-                        
-                        switch(action) {
-                            case 'bold':
-                                editorInstance.chain().focus().toggleBold().run();
-                                break;
-                            case 'italic':
-                                editorInstance.chain().focus().toggleItalic().run();
-                                break;
-                            case 'strike':
-                                editorInstance.chain().focus().toggleStrike().run();
-                                break;
-                            case 'heading1':
-                                editorInstance.chain().focus().toggleHeading({ level: 1 }).run();
-                                break;
-                            case 'heading2':
-                                editorInstance.chain().focus().toggleHeading({ level: 2 }).run();
-                                break;
-                            case 'paragraph':
-                                editorInstance.chain().focus().setParagraph().run();
-                                break;
-                            case 'bulletList':
-                                editorInstance.chain().focus().toggleBulletList().run();
-                                break;
-                            case 'orderedList':
-                                editorInstance.chain().focus().toggleOrderedList().run();
-                                break;
-                            case 'blockquote':
-                                editorInstance.chain().focus().toggleBlockquote().run();
-                                break;
-                            case 'codeBlock':
-                                editorInstance.chain().focus().toggleCodeBlock().run();
-                                break;
-                            case 'undo':
-                                editorInstance.chain().focus().undo().run();
-                                break;
-                            case 'redo':
-                                editorInstance.chain().focus().redo().run();
-                                break;
-                        }
-                        
-                        updateOutput();
-                    });
-                });
-
-                // Обновление состояния кнопок
-                editorInstance.on('transaction', () => {
-                    buttons.forEach(button => {
-                        const action = button.getAttribute('data-action');
-                        let isActive = false;
-                        
-                        switch(action) {
-                            case 'bold':
-                                isActive = editorInstance.isActive('bold');
-                                break;
-                            case 'italic':
-                                isActive = editorInstance.isActive('italic');
-                                break;
-                            case 'strike':
-                                isActive = editorInstance.isActive('strike');
-                                break;
-                            case 'heading1':
-                                isActive = editorInstance.isActive('heading', { level: 1 });
-                                break;
-                            case 'heading2':
-                                isActive = editorInstance.isActive('heading', { level: 2 });
-                                break;
-                            case 'paragraph':
-                                isActive = editorInstance.isActive('paragraph');
-                                break;
-                            case 'bulletList':
-                                isActive = editorInstance.isActive('bulletList');
-                                break;
-                            case 'orderedList':
-                                isActive = editorInstance.isActive('orderedList');
-                                break;
-                            case 'blockquote':
-                                isActive = editorInstance.isActive('blockquote');
-                                break;
-                            case 'codeBlock':
-                                isActive = editorInstance.isActive('codeBlock');
-                                break;
-                        }
-                        
-                        if (isActive) {
-                            button.classList.add('is-active');
-                        } else {
-                            button.classList.remove('is-active');
-                        }
-                    });
-                });
-
-                statusEl.className = 'status';
-                statusEl.innerHTML = '✅ <strong>Успешно!</strong> Tiptap редактор работает в офлайн режиме.';
-                editorWrapper.style.display = 'block';
-                updateOutput();
-
-            } catch (error) {
-                console.error('Ошибка инициализации:', error);
-                statusEl.className = 'status error';
-                statusEl.innerHTML = `❌ <strong>Ошибка:</strong> ${error.message}<br><br><pre>${error.stack}</pre>`;
-                editorWrapper.style.display = 'none';
-            }
-        }
-
-        // Запуск после загрузки страницы
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initEditor);
+        if (isActive) {
+          button.classList.add('is-active');
         } else {
-            setTimeout(initEditor, 100);
+          button.classList.remove('is-active');
         }
-    </script>
+      });
+    }
+
+    function handleToolbarAction(action) {
+      if (!editor) return;
+
+      switch(action) {
+        case 'bold':
+          editor.chain().focus().toggleBold().run();
+          break;
+        case 'italic':
+          editor.chain().focus().toggleItalic().run();
+          break;
+        case 'strike':
+          editor.chain().focus().toggleStrike().run();
+          break;
+        case 'heading1':
+          editor.chain().focus().toggleHeading({ level: 1 }).run();
+          break;
+        case 'heading2':
+          editor.chain().focus().toggleHeading({ level: 2 }).run();
+          break;
+        case 'heading3':
+          editor.chain().focus().toggleHeading({ level: 3 }).run();
+          break;
+        case 'bulletList':
+          editor.chain().focus().toggleBulletList().run();
+          break;
+        case 'orderedList':
+          editor.chain().focus().toggleOrderedList().run();
+          break;
+        case 'blockquote':
+          editor.chain().focus().toggleBlockquote().run();
+          break;
+        case 'codeBlock':
+          editor.chain().focus().toggleCodeBlock().run();
+          break;
+        case 'undo':
+          editor.chain().focus().undo().run();
+          break;
+        case 'redo':
+          editor.chain().focus().redo().run();
+          break;
+      }
+    }
+
+    // Обработчики событий
+    document.addEventListener('DOMContentLoaded', () => {
+      // Небольшая задержка чтобы убедиться что скрипт загрузился
+      setTimeout(initEditor, 100);
+
+      // Обработка кликов по toolbar
+      document.querySelector('.toolbar').addEventListener('click', (e) => {
+        const button = e.target.closest('button[data-action]');
+        if (button) {
+          handleToolbarAction(button.dataset.action);
+        }
+      });
+    });
+  </script>
 </body>
 </html>
