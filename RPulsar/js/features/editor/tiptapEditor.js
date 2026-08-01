@@ -9,11 +9,14 @@ window.App = window.App || {};
  * @returns {object} Экземпляр редактора
  */
 App.initTiptapEditor = function(containerId, content = '', onChange = null) {
-    if (!window.TiptapCore || !window.TiptapStarterKit) {
+    if (!window.TiptapCore || !window.TiptapStarterKit || !window.TiptapExtensionPlaceholder) {
         console.error('Tiptap библиотеки не загружены');
+        console.log('TiptapCore:', !!window.TiptapCore);
+        console.log('TiptapStarterKit:', !!window.TiptapStarterKit);
+        console.log('TiptapExtensionPlaceholder:', !!window.TiptapExtensionPlaceholder);
         return null;
     }
-
+    
     const container = document.getElementById(containerId);
     if (!container) {
         console.error(`Контейнер ${containerId} не найден`);
