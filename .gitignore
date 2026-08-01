@@ -1,48 +1,55 @@
 ```
+# Build artifacts and bundles
+RPulsar/libs/tiptap/*.js
+!RPulsar/libs/tiptap/bundle.js
+!RPulsar/libs/tiptap/init-tiptap.js
+!RPulsar/libs/tiptap/loader.js
+!RPulsar/libs/tiptap/prosemirror-commands.js
+!RPulsar/libs/tiptap/prosemirror-dropcursor.js
+!RPulsar/libs/tiptap/prosemirror-gapcursor.js
+!RPulsar/libs/tiptap/prosemirror-history.js
+!RPulsar/libs/tiptap/prosemirror-inputrules.js
+!RPulsar/libs/tiptap/prosemirror-keymap.js
+!RPulsar/libs/tiptap/prosemirror-model.js
+!RPulsar/libs/tiptap/prosemirror-schema-basic.js
+!RPulsar/libs/tiptap/prosemirror-schema-list.js
+!RPulsar/libs/tiptap/prosemirror-state.js
+!RPulsar/libs/tiptap/prosemirror-transform.js
+!RPulsar/libs/tiptap/prosemirror-view.js
+!RPulsar/libs/tiptap/tiptap-core.js
+!RPulsar/libs/tiptap/tiptap-extension-placeholder.js
+!RPulsar/libs/tiptap/tiptap-starter-kit.js
+!RPulsar/libs/tiptap/prosemirror-commands-umd.js
+!RPulsar/libs/tiptap/prosemirror-dropcursor-umd.js
+!RPulsar/libs/tiptap/prosemirror-gapcursor-umd.js
+!RPulsar/libs/tiptap/prosemirror-history-umd.js
+!RPulsar/libs/tiptap/prosemirror-inputrules-umd.js
+!RPulsar/libs/tiptap/prosemirror-keymap-umd.js
+!RPulsar/libs/tiptap/prosemirror-model-umd.js
+!RPulsar/libs/tiptap/prosemirror-schema-basic-umd.js
+!RPulsar/libs/tiptap/prosemirror-schema-list-umd.js
+!RPulsar/libs/tiptap/prosemirror-state-umd.js
+!RPulsar/libs/tiptap/prosemirror-transform-umd.js
+!RPulsar/libs/tiptap/prosemirror-view-umd.js
+!RPulsar/libs/tiptap/tiptap-complete.js
+!RPulsar/libs/tiptap/tiptap-core-full.js
+!RPulsar/libs/tiptap/tiptap-core-min.js
+!RPulsar/libs/tiptap/tiptap-extension-placeholder-full.js
+!RPulsar/libs/tiptap/tiptap-offline-bundle.js
+!RPulsar/libs/tiptap/tiptap-placeholder-min.js
+!RPulsar/libs/tiptap/tiptap-starter-kit-full.js
+!RPulsar/libs/tiptap/tiptap-starter-kit-min.js
+!RPulsar/libs/tiptap/tiptap-starterkit-complete.js
+
 # Dependencies
 node_modules/
 package-lock.json
 
-# Build artifacts
-dist/
-build/
-target/
+# Build scripts output
+RPulsar/libs/tiptap/build-bundle.py
+RPulsar/libs/tiptap/build-final-bundle.py
 
-# Logs and temp files
-*.log
-*.tmp
-
-# Environment
-.env
-.env.local
-*.env.*
-
-# Editors
-.vscode/
-.idea/
-
-# Python
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-.Python
-venv/
-.venv/
-.env
-
-# Node.js
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Coverage
-coverage/
-htmlcov/
-.coverage
-
-# Temporary files
-*.swp
-*.swo
-*~
+# Test files
+RPulsar/test-tiptap.html
+RPulsar/test-tiptap-final.html
 ```
