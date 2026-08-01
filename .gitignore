@@ -1,27 +1,33 @@
 ```
 # Build artifacts
-RPulsar/libs/tiptap/*.js
-tiptap-build/dist/
-tiptap-build/build/
+*.pyc
+__pycache__/
+build/
+dist/
 
 # Dependencies
+.libs/
+.venv/
+venv/
 node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
-# Editor/IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
-*.tmp
-
-# Logs
+# Logs and temp files
 *.log
+*.tmp
+*.swp
 
 # Environment
 .env
 .env.local
-.env.*
+*.env.*
+
+# Editors
+.vscode/
+.idea/
+
+# Python specific
+*.py[cod]
+*$py.class
+*.so
+.Python
 ```
